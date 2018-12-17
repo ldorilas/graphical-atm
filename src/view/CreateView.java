@@ -1,16 +1,25 @@
 package view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controller.ViewManager;
 
 @SuppressWarnings("serial")
 public class CreateView extends JPanel implements ActionListener {
+	
+	private JButton submitButton;
+	private JTextField firstNameField;
+	private JTextField lastNameField;
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
 	
@@ -32,8 +41,23 @@ public class CreateView extends JPanel implements ActionListener {
 	/*
 	 * Initializes the CreateView components.
 	 */
+	private void initFirstNameField() {
+		JLabel label = new JLabel("First Name", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(firstNameField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		firstNameField = new JTextField(20);
+		firstNameField.setBounds(205, 100, 200, 35);
+		firstNameField.addActionListener(this);
+		
+		this.add(label);
+		this.add(firstNameField);
+	}
 	
 	private void initialize() {
+		
+		initFirstNameField();
 		
 		// TODO
 		//
