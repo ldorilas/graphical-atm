@@ -17,9 +17,9 @@ import controller.ViewManager;
 @SuppressWarnings("serial")
 public class CreateView extends JPanel implements ActionListener {
 	
-	private JButton submitButton;
 	private JTextField firstNameField;
 	private JTextField lastNameField;
+	private JButton createAccount;
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
 	
@@ -55,10 +55,24 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(firstNameField);
 	}
 	
+	private void initLastNameField() {
+		JLabel label = new JLabel("Last Name", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(lastNameField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		lastNameField = new JTextField(20);
+		lastNameField.setBounds(205, 100, 200, 35);
+		lastNameField.addActionListener(this);
+		
+		this.add(label);
+		this.add(lastNameField);
+	}
+	
 	private void initialize() {
 		
 		initFirstNameField();
-		
+		initLastNameField();
 		// TODO
 		//
 		// this is a placeholder for this view and should be removed once you start
