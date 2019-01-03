@@ -61,12 +61,20 @@ public class HomeView extends JPanel implements ActionListener {
 	 * @throws IOException
 	 */
 	
-	private void initDepositButton() {	
-		depositButton = new JButton("Deposit");
-		depositButton.setBounds(205, 180, 200, 35);
-		loginButton.addActionListener(this);
+	private void initDepositView() {	
+		depositView = new JButton("Deposit");
+		depositView.setBounds(205, 180, 200, 35);
+		depositView.addActionListener(this);
 		
-		this.add(loginButton);
+		this.add(depositView);
+	}
+	
+	private void initTransferView() {	
+		transferView = new JButton("Transfer");
+		transferView.setBounds(205, 180, 200, 35);
+		transferView.addActionListener(this);
+		
+		this.add(transferView);
 	}
 	
 	private void writeObject(ObjectOutputStream oos) throws IOException {
@@ -84,6 +92,19 @@ public class HomeView extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		Object source = e.getSource();
+		
+		if (source.equals(depositView)) {
+			manager.switchTo(ATM.DEPOSIT_VIEW);
+		} else if (source.equals(withdrawView)) {
+			manager.switchTo(ATM.WITHDRAW_VIEW);
+		} else if (source.equals(transferView)); {
+			manager.switchTo(ATM.TRANSFER_VIEW);
+		} else if (source.equals(logoutButton)) {
+			manager.switchTo(ATM.LOGIN_VIEW);
+		} else {
+			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
+		}
 		// TODO
 		//
 		// this is where you'll setup your action listener, which is responsible for
