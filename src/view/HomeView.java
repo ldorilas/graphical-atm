@@ -44,7 +44,10 @@ public class HomeView extends JPanel implements ActionListener {
 		// building the HomeView.
 		
 		this.add(new javax.swing.JLabel("HomeView", javax.swing.SwingConstants.CENTER));
-		
+		initDepositView();
+		initWithdrawView();
+		initTransferView();
+		initLogoutButton();
 		// TODO
 		//
 		// this is where you should build the HomeView (i.e., all the components that
