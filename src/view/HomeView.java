@@ -13,7 +13,10 @@ import controller.ViewManager;
 public class HomeView extends JPanel implements ActionListener {
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
-	
+	private JButton depositView;
+	private JButton withdrawView;
+	private JButton transferView;
+	private JButton logoutButton;
 	/**
 	 * Constructs an instance (or objects) of the HomeView class.
 	 * 
