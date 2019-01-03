@@ -61,6 +61,14 @@ public class HomeView extends JPanel implements ActionListener {
 	 * @throws IOException
 	 */
 	
+	private void initDepositButton() {	
+		depositButton = new JButton("Deposit");
+		depositButton.setBounds(205, 180, 200, 35);
+		loginButton.addActionListener(this);
+		
+		this.add(loginButton);
+	}
+	
 	private void writeObject(ObjectOutputStream oos) throws IOException {
 		throw new IOException("ERROR: The HomeView class is not serializable.");
 	}
