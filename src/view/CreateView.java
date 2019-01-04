@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -19,6 +21,15 @@ public class CreateView extends JPanel implements ActionListener {
 	
 	private JTextField firstNameField;
 	private JTextField lastNameField;
+	private JComboBox yearDropdown;
+	private JComboBox monthDropdown;
+	private JComboBox dayDropdown;
+	private JTextField phoneNumField;
+	private JTextField strAddressField;
+	private JTextField cityField;
+	private JComboBox stateDropdown;
+	private JTextField zipField;
+	private JTextField pinField;
 	private JButton createAccount;
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
@@ -69,10 +80,55 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(lastNameField);
 	}
 	
+	private void initMonthDropdown() {
+		JLabel label = new JLabel("Month", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(monthDropdown);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		String[] months = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
+		JComboBox<String> dropdown = new JComboBox<String>(months);
+		JComboBox monthDropdown = dropdown;
+		monthDropdown.addActionListener(this);
+		
+		this.add(label);
+		this.add(monthDropdown);
+	}
+	
+	private void initDayDropdown() {
+		JLabel label = new JLabel("Month", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(monthDropdown);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		String[] days = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
+		JComboBox<String> dropdown = new JComboBox<String>(months);
+		JComboBox monthDropdown = dropdown;
+		monthDropdown.addActionListener(this);
+		
+		this.add(label);
+		this.add(monthDropdown);
+	}
+	
+	private void initPinField() {
+		JLabel label = new JLabel("PIN", SwingConstants.RIGHT);
+		label.setBounds(100, 140, 95, 35);
+		label.setLabelFor(pinField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		pinField = new JPasswordField(20);
+		pinField.setBounds(205, 140, 200, 35);
+		pinField.addActionListener(this);
+		
+		this.add(label);
+		this.add(pinField);
+	}
+	
 	private void initialize() {
 		
 		initFirstNameField();
 		initLastNameField();
+		
 		// TODO
 		//
 		// this is a placeholder for this view and should be removed once you start
