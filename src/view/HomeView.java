@@ -1,11 +1,16 @@
 package view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controller.ViewManager;
 
@@ -45,8 +50,8 @@ public class HomeView extends JPanel implements ActionListener {
 		
 		this.add(new javax.swing.JLabel("HomeView", javax.swing.SwingConstants.CENTER));
 		initDepositView();
-		initWithdrawView();
 		initTransferView();
+		initWithdrawView();
 		initLogoutButton();
 		// TODO
 		//
@@ -57,28 +62,44 @@ public class HomeView extends JPanel implements ActionListener {
 		// positioning your components.
 	}
 	
+	private void initDepositView() {
+		JButton depositView = new JButton("Deposit");
+		depositView.setBounds(126, 360, 248, 35);
+		depositView.addActionListener(this);
+
+		this.add(depositView);		
+	}
+	
+	private void initTransferView() {
+		JButton transferView = new JButton("Transfer");
+		transferView.setBounds(126, 360, 248, 35);
+		transferView.addActionListener(this);
+
+		this.add(transferView);		
+	}
+	
+	private void initWithdrawView() {
+		JButton withdrawView = new JButton("Withdraw");
+		withdrawView.setBounds(126, 360, 248, 35);
+		withdrawView.addActionListener(this);
+
+		this.add(withdrawView);		
+	}
+	
+	private void initLogoutButton() {
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.setBounds(126, 360, 248, 35);
+		logoutButton.addActionListener(this);
+
+		this.add(logoutButton);		
+	}
+	
 	/*
 	 * HomeView is not designed to be serialized, and attempts to serialize will throw an IOException.
 	 * 
 	 * @param oos
 	 * @throws IOException
 	 */
-	
-	private void initDepositView() {	
-		depositView = new JButton("Deposit");
-		depositView.setBounds(205, 180, 200, 35);
-		depositView.addActionListener(this);
-		
-		this.add(depositView);
-	}
-	
-	private void initTransferView() {	
-		transferView = new JButton("Transfer");
-		transferView.setBounds(205, 180, 200, 35);
-		transferView.addActionListener(this);
-		
-		this.add(transferView);
-	}
 	
 	private void writeObject(ObjectOutputStream oos) throws IOException {
 		throw new IOException("ERROR: The HomeView class is not serializable.");
@@ -103,7 +124,7 @@ public class HomeView extends JPanel implements ActionListener {
 			manager.switchTo(ATM.WITHDRAW_VIEW);
 		} else if (source.equals(transferView)); {
 			manager.switchTo(ATM.TRANSFER_VIEW);
-		} else if (source.equals(logoutButton)) {
+		} if (source.equals(logoutButton)) {
 			manager.switchTo(ATM.LOGIN_VIEW);
 		} else {
 			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
