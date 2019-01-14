@@ -140,6 +140,10 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(pinField);
 	}
 	
+	private void initConfirmPinField() {
+		
+	}
+	
 	private void initialize() {
 	
 		// TODO
