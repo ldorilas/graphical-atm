@@ -13,7 +13,7 @@ import controller.ViewManager;
 @SuppressWarnings("serial")
 public class ATM extends JFrame {
 	
-	/*
+	/* 
 	 * Status codes for deposits, withdrawals, and transfers.
 	 */
 	
