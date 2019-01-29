@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import data.Database;
 
-public class User {
+public class User { 
 	
 	private int pin;					// the user's PIN (a 4-digit between between 0000 and 9999)
 	private int dob;					// the user's date of birth (an 8-digit number stored as YYYYMMDD)
