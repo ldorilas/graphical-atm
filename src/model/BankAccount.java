@@ -40,7 +40,7 @@ public class BankAccount {
 	 */
 	
 	public BankAccount(ResultSet rs) throws SQLException {	
-		this(rs.getString(Database.STATUS).charAt(0), rs.getLong(Database.ACCOUNT_NUMBER), rs.getDouble(Database.BALANCE), new User(rs));
+		this(result.getString(Database.STATUS).charAt(0), result.getLong(Database.ACCOUNT_NUMBER), result.getDouble(Database.BALANCE), new User(rs));
 	}
 	
 	///////////////////// GETTERS & SETTERS ///////////////////////////////////////////
