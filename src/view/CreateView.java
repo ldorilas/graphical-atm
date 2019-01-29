@@ -19,6 +19,13 @@ import controller.ViewManager;
 @SuppressWarnings("serial")
 public class CreateView extends JPanel implements ActionListener {
 	
+	private String tempAbbreviation;
+	private String tempMonth;
+	private String tempDay;
+	private String tempYear;
+	
+	private JButton finishButton = new JButton("Finish");
+	private JButton logOutButton = new JButton("Exit");
 	private JTextField firstNameField;
 	private JTextField lastNameField;
 	private JComboBox yearDropdown;
@@ -140,8 +147,80 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(pinField);
 	}
 	
-	private void initConfirmPinField() {
+	private void initPhoneNumberField() {
+		JLabel label = new JLabel("Phone Number", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(phoneNumberField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
+		phoneNumberField = new JTextField(20);
+		phoneNumberField.setBounds(205, 100, 200, 35);
+		phoneNumberField.addActionListener(this);
+		
+		this.add(label);
+		this.add(phoneNumberField);
+	}
+	
+	private void initStrAddressField() {
+		JLabel label = new JLabel("Street Address", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(strAddressField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		strAddressField = new JTextField(20);
+		strAddressField.setBounds(205, 100, 200, 35);
+		strAddressField.addActionListener(this);
+		
+		this.add(label);
+		this.add(strAddressField);
+	}
+	
+	private void initCityField() {
+		JLabel label = new JLabel("City", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(cityField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		cityField = new JTextField(20);
+		cityField.setBounds(205, 100, 200, 35);
+		cityField.addActionListener(this);
+		
+		this.add(label);
+		this.add(cityField);
+	}
+	
+	private void initStateDropdown() {
+		JLabel label = new JLabel("State", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(monthDropdown);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		String[] states = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC",  
+		    "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",  
+		    "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",  
+		    "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",  
+		    "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"};
+		JComboBox<String> dropdown = new JComboBox<String>(states);
+		JComboBox stateDropdown = dropdown;
+		stateDropdown.addActionListener(this);
+		
+		this.add(label);
+		this.add(stateDropdown);
+	
+	}
+	
+	private void initZipField() {
+		JLabel label = new JLabel("Zip Code", SwingConstants.RIGHT);
+		label.setBounds(100, 100, 95, 35);
+		label.setLabelFor(zipField);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		zipField = new JTextField(20);
+		zipField.setBounds(205, 100, 200, 35);
+		zipField.addActionListener(this);
+		
+		this.add(label);
+		this.add(zipField);
 	}
 	
 	private void initialize() {
@@ -157,6 +236,13 @@ public class CreateView extends JPanel implements ActionListener {
 		initYearDropdown();
 		initMonthDropdown();
 		initDayDropdown();
+		initPinField();
+		initPhoneNumberField();
+		initStrAddressField();
+		initCityField();
+		initStateDropdown();
+		initZipField();
+		
 		
 		// TODO
 		//
@@ -186,9 +272,135 @@ public class CreateView extends JPanel implements ActionListener {
 	 * @param e
 	 */
 	
+		public void finishForm() throws InterruptedException {
+		
+		String tempBirthdate = tempYear + tempMonth + tempDay;
+		if (tempBirthdate.equals(null)) {
+			tempMonth = (String) monthField.getSelectedItem();
+			switch(tempMonth) {
+			case "Jan":
+				tempMonth = "01";
+				break;
+			case "Feb":
+				tempMonth = "02";
+				break;
+			case "Mar":
+				tempMonth = "03";
+				break;
+			case "Apr":
+				tempMonth = "04";
+				break;
+			case "May":
+				tempMonth = "05";
+				break;
+			case "Jun":
+				tempMonth = "06";
+				break;
+			case "Jul":
+				tempMonth = "07";
+				break;
+			case "Aug":
+				tempMonth = "08";
+				break;
+			case "Sep":
+				tempMonth = "09";
+				break;
+			case "Oct":
+				tempMonth = "10";
+				break;
+			case "Nov":
+				tempMonth = "11";
+				break;
+			case "Dec":
+				tempMonth = "12";
+				break;
+			}
+		}
+		if (FNameField.getText().equals(null) || LNameField.getText().equals(null) || tempBirthdate.equals(null) || addressField.getText().equals(null) || cityField.getText().equals(null) || stateDropdown.getSelectedItem().equals(null) || zipField.getText().equals(null) || phoneNumberField.getText().equals(null) || pinField.getPassword().equals(null)) {
+			updateErrorMessage("Please fill out all fields.");
+		} else {
+			manager.accountCreate('Y', 0.00, Integer.valueOf(new String(pinField.getPassword())), Integer.valueOf(tempBirthdate), Long.valueOf(phoneNumberField.getText()), firstNameField.getText(), lastNameField.getText(), addressField.getText(), cityField.getText(), tempAbbr, zipField.getText());
+			updateErrorMessage("");
+			manager.logOut();
+		}
+	}
+///////////////////// OVERRIDDEN METHODS //////////////////////////////////////////
+	
+/*
+* Responds to button clicks and other actions performed in the CreateView.
+* 
+* @param e
+*/
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
 		
+		if (source.equals(logOutButton)) {
+			manager.logOut();
+			manager.switchTo(ATM.LOGIN_VIEW);
+		}
+		else if (source.equals(stateDropdown)) {
+			String selection = (String) stateDropdown.getSelectedItem();
+			tempAbbreviation = selection;
+		}
+		else if (source.equals(monthDropdown)) {
+			tempMonth = (String) monthDropdown.getSelectedItem();
+			switch(tempMonth) {
+			case "Jan":
+				tempMonth = "01";
+				break;
+			case "Feb":
+				tempMonth = "02";
+				break;
+			case "Mar":
+				tempMonth = "03";
+				break;
+			case "Apr":
+				tempMonth = "04";
+				break;
+			case "May":
+				tempMonth = "05";
+				break;
+			case "Jun":
+				tempMonth = "06";
+				break;
+			case "Jul":
+				tempMonth = "07";
+				break;
+			case "Aug":
+				tempMonth = "08";
+				break;
+			case "Sep":
+				tempMonth = "09";
+				break;
+			case "Oct":
+				tempMonth = "10";
+				break;
+			case "Nov":
+				tempMonth = "11";
+				break;
+			case "Dec":
+				tempMonth = "12";
+				break;
+			}
+		}
+		else if (source.equals(dayDropdown)) {
+			tempDay = (String) dayField.getSelectedItem();
+		}
+		else if (source.equals(yearDropdown)) {
+			tempYear = (String) yearField.getSelectedItem();
+		}
+		else if (source.equals(finishButton)){
+			try {
+				finishForm();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				updateErrorMessage("Please enter valid information.");
+			}
+		}
+		else {
+			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
+		}
 		// TODO
 		//
 		// this is where you'll setup your action listener, which is responsible for
@@ -196,5 +408,28 @@ public class CreateView extends JPanel implements ActionListener {
 		// user clicking a button, typing in a textfield, etc.).
 		//
 		// feel free to use my action listener in LoginView.java as an example.
+	}
+
+	public static JTextField getFirstNameField() {
+		return firstNameField;
+	}
+
+	public static JTextField getLNameField() {
+		return lastNameField;
+	}
+	public static JTextField getAddressField() {
+		return addressField;
+	}
+	public static JTextField getCityField() {
+		return cityField;
+	}
+	public static JTextField getZipField() {
+		return zipField;
+	}
+	public static JTextField getPhoneField() {
+		return phoneField;
+	}
+	public static JPasswordField getPinField() {
+		return pinField;
 	}
 }
