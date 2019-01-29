@@ -203,7 +203,7 @@ public class Database {
 			
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		
 		return false;
