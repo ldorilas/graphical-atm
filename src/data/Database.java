@@ -30,10 +30,10 @@ public class Database {
 	public static final String ZIP = "zip";
 	public static final String STATUS = "status";
 	
-	private Connection conn;			// a connection to the database
-	private Statement stmt;				// the statement used to build inserts, updates and selects
-	private ResultSet rs;				// result set used for selects
-	private DatabaseMetaData meta;		// metadata about the database
+	private Connection connection;			// a connection to the database
+	private Statement statement;				// the statement used to build inserts, updates and selects
+	private ResultSet result;				// result set used for selects
+	private DatabaseMetaData database;		// metadata about the database
 	
 	/**
 	 * Constructs an instance (or object) of the Database class.
@@ -60,15 +60,15 @@ public class Database {
 	
 	public BankAccount getAccount(long accountNumber, int pin) {
 		try {
-			stmt = conn.createStatement();
+			statement = connection.createStatement();
 			
-			PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM accounts WHERE account_number = ? AND pin = ?");
+			PreparedStatement selectStatementt = connection.prepareStatement("SELECT * FROM accounts WHERE account_number = ? AND pin = ?");
 			selectStmt.setLong(1, accountNumber);
 			selectStmt.setInt(2, pin);
 			
-			rs = selectStmt.executeQuery();
-			if (rs.next()) {
-				return new BankAccount(rs);
+			result = selectStatement.executeQuery();
+			if (result.next()) {
+				return new BankAccount(result);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,14 +86,14 @@ public class Database {
 	
 	public BankAccount getAccount(long accountNumber) {
 		try {
-			stmt = conn.createStatement();
+			statement = connection.createStatement();
 			
-			PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM accounts WHERE account_number = ?");
-			selectStmt.setLong(1, accountNumber);
+			PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM accounts WHERE account_number = ?");
+			selectStatement.setLong(1, accountNumber);
 			
-			rs = selectStmt.executeQuery();
-			if (rs.next()) {
-				return new BankAccount(rs);
+			result = selectStatement.executeQuery();
+			if (result.next()) {
+				return new BankAccount(result);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,24 +111,24 @@ public class Database {
 	
 	public boolean insertAccount(BankAccount account) {
 		try {
-			stmt = conn.createStatement();
+			statement = connection.createStatement();
 			
-			PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");		
-			insertStmt.setLong(1, account.getAccountNumber());
-			insertStmt.setInt(2, account.getUser().getPin());
-			insertStmt.setDouble(3, account.getBalance());
-			insertStmt.setString(4, account.getUser().getLastName());
-			insertStmt.setString(5, account.getUser().getFirstName());
-			insertStmt.setInt(6, account.getUser().getDob());
-			insertStmt.setLong(7, account.getUser().getPhone());
-			insertStmt.setString(8, account.getUser().getStreetAddress());
-			insertStmt.setString(9, account.getUser().getCity());
-			insertStmt.setString(10, account.getUser().getState());
-			insertStmt.setString(11, account.getUser().getZip());
-			insertStmt.setString(12, String.valueOf(account.getStatus()));
+			PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");		
+			insertStatement.setLong(1, account.getAccountNumber());
+			insertStatement.setInt(2, account.getUser().getPin());
+			insertStatement.setDouble(3, account.getBalance());
+			insertStatement.setString(4, account.getUser().getLastName());
+			insertStatement.setString(5, account.getUser().getFirstName());
+			insertStatement.setInt(6, account.getUser().getBirthdate());
+			insertStatement.setLong(7, account.getUser().getPhoneNumber());
+			insertStatement.setString(8, account.getUser().getAddress());
+			insertStatement.setString(9, account.getUser().getCity());
+			insertStatement.setString(10, account.getUser().getState());
+			insertStatement.setString(11, account.getUser().getZip());
+			insertStatement.setString(12, String.valueOf(account.getStatus()));
 			
-			insertStmt.executeUpdate();
-			insertStmt.close();
+			insertStatement.executeUpdate();
+			insertStatement.close();
 			
 			return true;
 		} catch (SQLException e) {
@@ -147,14 +147,14 @@ public class Database {
 	
 	public boolean closeAccount(BankAccount account) {
 		try {
-			stmt = conn.createStatement();
+			statement = connection.createStatement();
 			
-			PreparedStatement insertStmt = conn.prepareStatement("UPDATE accounts SET status = ? WHERE account_number = ?");		
-			insertStmt.setString(1, "N");
-			insertStmt.setLong(2, account.getAccountNumber());
+			PreparedStatement insertStatement = connection.prepareStatement("UPDATE accounts SET status = ? WHERE account_number = ?");		
+			insertStatement.setString(1, "N");
+			insertStatement.setLong(2, account.getAccountNumber());
 			
-			insertStmt.executeUpdate();
-			insertStmt.close();
+			insertStatement.executeUpdate();
+			insertStatement.close();
 			
 			return true;
 		} catch (SQLException e) {
@@ -174,11 +174,11 @@ public class Database {
 	
 	public boolean updateAccount(BankAccount account) {
 		try {
-			stmt = conn.createStatement();
+			statement = conn.createStatement();
 			
 			// all editable fields are included in this update statement
 			
-			PreparedStatement insertStmt = conn.prepareStatement(
+			PreparedStatement insertStatement = connection.prepareStatement(
 				"UPDATE accounts SET " +
 					"pin = ?, " +
 					"balance = ?, " +
@@ -189,17 +189,17 @@ public class Database {
 					"zip = ? " +
 				"WHERE account_number = ?"
 			);		
-			insertStmt.setInt(1, account.getUser().getPin());
-			insertStmt.setDouble(2, account.getBalance());
-			insertStmt.setLong(3, account.getUser().getPhone());
-			insertStmt.setString(4, account.getUser().getStreetAddress());
-			insertStmt.setString(5, account.getUser().getCity());
-			insertStmt.setString(6, account.getUser().getState());
-			insertStmt.setString(7, account.getUser().getZip());
-			insertStmt.setLong(8, account.getAccountNumber());
+			insertStatement.setInt(1, account.getUser().getPin());
+			insertStatement.setDouble(2, account.getBalance());
+			insertStatement.setLong(3, account.getUser().getPhone());
+			insertStatement.setString(4, account.getUser().getStreetAddress());
+			insertStatement.setString(5, account.getUser().getCity());
+			insertStatement.setString(6, account.getUser().getState());
+			insertStatement.setString(7, account.getUser().getZip());
+			insertStatement.setLong(8, account.getAccountNumber());
 			
-			insertStmt.executeUpdate();
-			insertStmt.close();
+			insertStatement.executeUpdate();
+			insertStatement.close();
 			
 			return true;
 		} catch (SQLException e) {
@@ -216,9 +216,8 @@ public class Database {
 	 */
 	
 	public void shutdown() throws SQLException {
-		if (rs != null) rs.close();
-		if (stmt != null) stmt.close();
-		if (conn != null) conn.close();
+		if (result != null) result.close();
+		if (connection != null) conn.close();
 	}
 	
 	///////////////////// PRIVATE METHODS /////////////////////////////////////////////
@@ -233,8 +232,6 @@ public class Database {
 		Properties props = new Properties();
         props.put("user", "user1");
         props.put("password", "user1");
-
-        conn = DriverManager.getConnection("jdbc:derby:atm;create=true", props);
 	}
 	
 	/*
@@ -255,20 +252,20 @@ public class Database {
 	 */
 	
 	private void createAccountsTable() throws SQLException {
-		meta = conn.getMetaData();
-		rs = meta.getTables(null, "USER1", "ACCOUNTS", null);
+		database = conn.getMetaData();
+		result = database.getTables(null, "USER1", "ACCOUNTS", null);
 		
-		if (!rs.next()) {
-			stmt = conn.createStatement();
+		if (!result.next()) {
+			statement = connection.createStatement();
 			
-			stmt.execute(
+			statement.execute(
 				"CREATE TABLE accounts (" +
 					"account_number BIGINT PRIMARY KEY, " +
 					"pin INT, " +
 					"balance FLOAT, " +
 					"last_name VARCHAR(20), " +
 					"first_name VARCHAR(15), " +
-					"dob INT, " +
+					"birthdate INT, " +
 					"phone BIGINT, " +
 					"street_address VARCHAR(30), " +
 					"city VARCHAR(30), " +
@@ -287,26 +284,26 @@ public class Database {
 	 */
 	
 	private void insertDefaultAccount() throws SQLException {
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery("SELECT COUNT(*) FROM accounts");
-		if (rs.next() && rs.getInt(1) == 0) {
-			PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		statement = connection.createStatement();
+		result = statement.executeQuery("SELECT COUNT(*) FROM accounts");
+		if (result.next() && result.getInt(1) == 0) {
+			PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
-			insertStmt.setLong(1, 100000001L);
-			insertStmt.setInt(2, 1234);
-			insertStmt.setDouble(3, 0.00);
-			insertStmt.setString(4, "Wilson");
-			insertStmt.setString(5, "Ryan");
-			insertStmt.setInt(6, 19700707);
-			insertStmt.setLong(7, 55555555555L);
-			insertStmt.setString(8, "1776 Raritan Road");
-			insertStmt.setString(9, "Scotch Plains");
-			insertStmt.setString(10, "NJ");
-			insertStmt.setString(11, "07065");
-			insertStmt.setString(12, "Y");
+			insertStatement.setLong(1, 100000001L);
+			insertStatement.setInt(2, 1234);
+			insertStatement.setDouble(3, 0.00);
+			insertStatement.setString(4, "Wilson");
+			insertStatement.setString(5, "Ryan");
+			insertStatement.setInt(6, 19700707);
+			insertStatement.setLong(7, 55555555555L);
+			insertStatement.setString(8, "1776 Raritan Road");
+			insertStatement.setString(9, "Scotch Plains");
+			insertStatement.setString(10, "NJ");
+			insertStatement.setString(11, "07065");
+			insertStatement.setString(12, "Y");
 			
-			insertStmt.executeUpdate();
-			insertStmt.close();
+			insertStatement.executeUpdate();
+			insertStatement.close();
 		}
 	}
 }
