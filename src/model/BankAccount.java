@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import controller.ViewManager;
 import data.Database;
 import view.ATM;
 
@@ -116,7 +117,11 @@ public class BankAccount {
 	public int deposit(double amount) {
 		if (amount <= 0) {
 			return ATM.INVALID_AMOUNT;
-		} else {
+		}
+		else if (amount < .01) {
+			return ATM.INVALID_AMOUNT;
+		}
+		else {
 			balance = balance + amount;
 			
 			return ATM.SUCCESS;
