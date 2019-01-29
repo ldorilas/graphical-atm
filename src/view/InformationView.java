@@ -24,8 +24,14 @@ public class CreateView extends JPanel implements ActionListener {
 	private String tempDay;
 	private String tempYear;
 	
-	private JButton finishButton = new JButton("Finish");
-	private JButton logOutButton = new JButton("Exit");
+	private String tempAbbr;
+	private String tempMonth;
+	private String tempDay;
+	private String tempYear;
+	
+	private JButton editButton = new JButton("Edit");
+	private JButton backButton = new JButton("Back");
+	
 	private JTextField firstNameField;
 	private JTextField lastNameField;
 	private JComboBox yearDropdown;
@@ -47,10 +53,11 @@ public class CreateView extends JPanel implements ActionListener {
 	 * @param manager
 	 */
 	
-	public CreateView(ViewManager manager) {
+	public InformationView(ViewManager manager) {
 		super();
 		
 		this.manager = manager;
+		InformationView.errorMessageLabel = new JLabel("", SwingConstants.CENTER);
 		initialize();
 	}
 	
@@ -73,6 +80,10 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(firstNameField);
 	}
 	
+	public static void updateFirstName(String text) {
+		firstNameField.setText(text);
+	}
+	
 	private void initLastNameField() {
 		JLabel label = new JLabel("Last Name", SwingConstants.RIGHT);
 		label.setBounds(100, 100, 95, 35);
@@ -85,6 +96,10 @@ public class CreateView extends JPanel implements ActionListener {
 		
 		this.add(label);
 		this.add(lastNameField);
+	}
+	
+	public static void updateLastName(String text) {
+		lastNameField.setText(text);
 	}
 	
 	private void initYearDropdown() {
@@ -147,6 +162,33 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(pinField);
 	}
 	
+	public static void updatePin(String text) {
+		pinField.setText(text);
+	}
+	private void initFinishButton() {
+		editButton = new JButton();
+		editButton.setBounds(5, 5, 50, 50);
+		editButton.addActionListener(this);
+		
+		try {
+			editButton.setText("Edit");;
+		} catch (Exception e) {
+			editButton.setText("Edit");
+		}
+	}
+	private void initLogoutButton() {
+		backButton = new JButton();
+		backButton.setBounds(5, 5, 50, 50);
+		backButton.addActionListener(this);
+		
+		try {
+			backButton.setText("Exit");;
+		} catch (Exception e) {
+			backButton.setText("Exit");
+		}
+	}
+	
+	
 	private void initPhoneNumberField() {
 		JLabel label = new JLabel("Phone Number", SwingConstants.RIGHT);
 		label.setBounds(100, 100, 95, 35);
@@ -159,6 +201,10 @@ public class CreateView extends JPanel implements ActionListener {
 		
 		this.add(label);
 		this.add(phoneNumberField);
+	}
+	
+	public static void updatePhone(String text) {
+		phoneNumberField.setText(text);
 	}
 	
 	private void initStrAddressField() {
@@ -175,6 +221,10 @@ public class CreateView extends JPanel implements ActionListener {
 		this.add(strAddressField);
 	}
 	
+	public static void updateAddress(String text) {
+		addressField.setText(text);
+	}
+	
 	private void initCityField() {
 		JLabel label = new JLabel("City", SwingConstants.RIGHT);
 		label.setBounds(100, 100, 95, 35);
@@ -187,6 +237,10 @@ public class CreateView extends JPanel implements ActionListener {
 		
 		this.add(label);
 		this.add(cityField);
+	}
+	
+	public static void updateCity(String text) {
+		cityField.setText(text);
 	}
 	
 	private void initStateDropdown() {
@@ -209,6 +263,10 @@ public class CreateView extends JPanel implements ActionListener {
 	
 	}
 	
+	public static void updateState(String text) {
+		stateDropdown.setText(text);
+	}
+	
 	private void initZipField() {
 		JLabel label = new JLabel("Zip Code", SwingConstants.RIGHT);
 		label.setBounds(100, 100, 95, 35);
@@ -221,6 +279,10 @@ public class CreateView extends JPanel implements ActionListener {
 		
 		this.add(label);
 		this.add(zipField);
+	}
+	
+	public static void updateZip(String text) {
+		zipField.setText(text);
 	}
 	
 	private void initialize() {
@@ -271,80 +333,55 @@ public class CreateView extends JPanel implements ActionListener {
 	 * 
 	 * @param e
 	 */
-	
-		public void finishForm() throws InterruptedException {
+	public void changeToEdit() {
+		editButton.setText("Save Changes");
+		backButton.setText("Don't Save");
+		addressField.setEditable(true);
+		cityField.setEditable(true);
+		stateDropdown.setEnabled(true);
+		zipField.setEditable(true);
+		phoneNumberField.setEditable(true);
+		pinField.setEditable(true);
+	}
+	public void exitEdit() {
+		editButton.setText("Edit");
+		backButton.setText("Back");
+		addressField.setEditable(false);
+		cityField.setEditable(false);
+		stateDropdown.setEnabled(false);
+		zipField.setEditable(false);
+		phoneNumberField.setEditable(false);
+		pinField.setEditable(false);
+	}
+	public void finishForm() throws InterruptedException {
 		
-		String tempBirthdate = tempYear + tempMonth + tempDay;
-		if (tempBirthdate.equals(null)) {
-			tempMonth = (String) monthField.getSelectedItem();
-			switch(tempMonth) {
-			case "Jan":
-				tempMonth = "01";
-				break;
-			case "Feb":
-				tempMonth = "02";
-				break;
-			case "Mar":
-				tempMonth = "03";
-				break;
-			case "Apr":
-				tempMonth = "04";
-				break;
-			case "May":
-				tempMonth = "05";
-				break;
-			case "Jun":
-				tempMonth = "06";
-				break;
-			case "Jul":
-				tempMonth = "07";
-				break;
-			case "Aug":
-				tempMonth = "08";
-				break;
-			case "Sep":
-				tempMonth = "09";
-				break;
-			case "Oct":
-				tempMonth = "10";
-				break;
-			case "Nov":
-				tempMonth = "11";
-				break;
-			case "Dec":
-				tempMonth = "12";
-				break;
-			}
-		}
-		if (FNameField.getText().equals(null) || LNameField.getText().equals(null) || tempBirthdate.equals(null) || addressField.getText().equals(null) || cityField.getText().equals(null) || stateDropdown.getSelectedItem().equals(null) || zipField.getText().equals(null) || phoneNumberField.getText().equals(null) || pinField.getPassword().equals(null)) {
+		if (addressField.getText().equals(null) || cityField.getText().equals(null) || tempAbbr.equals(null) || zipField.getText().equals(null) || phoneNumberField.getText().equals(null) || pinField.getPassword().equals(null)) {
 			updateErrorMessage("Please fill out all fields.");
 		} else {
-			manager.accountCreate('Y', 0.00, Integer.valueOf(new String(pinField.getPassword())), Integer.valueOf(tempBirthdate), Long.valueOf(phoneNumberField.getText()), firstNameField.getText(), lastNameField.getText(), addressField.getText(), cityField.getText(), tempAbbr, zipField.getText());
+			manager.changeAccountInfo('Y', 0.00, Integer.valueOf(new String(pinField.getPassword())), manager.getAccount().getUser().getDob(), Long.valueOf(phoneNumberField.getText()), firstNameField.getText(), lastNameField.getText(), addressField.getText(), cityField.getText(), tempAbbr, zipField.getText());
 			updateErrorMessage("");
-			manager.logOut();
 		}
 	}
-///////////////////// OVERRIDDEN METHODS //////////////////////////////////////////
 	
-/*
-* Responds to button clicks and other actions performed in the CreateView.
-* 
-* @param e
-*/
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
-		if (source.equals(logOutButton)) {
-			manager.logOut();
-			manager.switchTo(ATM.LOGIN_VIEW);
+		if (source.equals(backButton)) {
+			if (backButton.getText().equals("Back")) {
+				manager.switchTo(ATM.HOME_VIEW);
+				updateErrorMessage("");
+			}
+			else {
+				exitEdit();
+			}
 		}
 		else if (source.equals(stateDropdown)) {
 			String selection = (String) stateDropdown.getSelectedItem();
-			tempAbbreviation = selection;
+			tempAbbr = selection;
 		}
 		else if (source.equals(monthDropdown)) {
-			tempMonth = (String) monthDropdown.getSelectedItem();
+			tempMonth = (String) monthField.getSelectedItem();
 			switch(tempMonth) {
 			case "Jan":
 				tempMonth = "01";
@@ -390,12 +427,18 @@ public class CreateView extends JPanel implements ActionListener {
 		else if (source.equals(yearDropdown)) {
 			tempYear = (String) yearField.getSelectedItem();
 		}
-		else if (source.equals(finishButton)){
-			try {
-				finishForm();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				updateErrorMessage("Please enter valid information.");
+		else if (source.equals(editButton)){
+			if (editButton.getText().equals("Edit")) {
+				changeToEdit();
+			}
+			else {
+				try {
+					finishForm();
+					exitEdit();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					updateErrorMessage("Please enter valid information.");
+				}
 			}
 		}
 		else {
@@ -410,11 +453,11 @@ public class CreateView extends JPanel implements ActionListener {
 		// feel free to use my action listener in LoginView.java as an example.
 	}
 
-	public static JTextField getFirstNameField() {
+	public static JTextField getFirstField() {
 		return firstNameField;
 	}
 
-	public static JTextField getLNameField() {
+	public static JTextField getLastNameField() {
 		return lastNameField;
 	}
 	public static JTextField getAddressField() {
@@ -431,5 +474,8 @@ public class CreateView extends JPanel implements ActionListener {
 	}
 	public static JPasswordField getPinField() {
 		return pinField;
+	}
+	public static JLabel getErrorMessageLabel() {
+		return errorMessageLabel;
 	}
 }
