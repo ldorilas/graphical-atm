@@ -18,11 +18,12 @@ import controller.ViewManager;
 public class HomeView extends JPanel implements ActionListener {
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
-	private JButton depositView;
-	private JButton withdrawView;
-	private JButton transferView;
+	private JButton depositButton;
+	private JButton transferButton;
+	private JButton withdrawButton;
+	private JButton informationButton;
+	private JButton closeAccountButton;
 	private JButton logoutButton;
-	/**
 	 * Constructs an instance (or objects) of the HomeView class.
 	 * 
 	 * @param manager
@@ -32,6 +33,9 @@ public class HomeView extends JPanel implements ActionListener {
 		super();
 		
 		this.manager = manager;
+		label = new JLabel("Account Details", SwingConstants.CENTER);
+		personName = new JLabel("", SwingConstants.CENTER);
+		personBalance = new JLabel("", SwingConstants.CENTER);
 		initialize();
 	}
 	
@@ -49,9 +53,11 @@ public class HomeView extends JPanel implements ActionListener {
 		// building the HomeView.
 		
 		this.add(new javax.swing.JLabel("HomeView", javax.swing.SwingConstants.CENTER));
-		initDepositView();
-		initTransferView();
-		initWithdrawView();
+		initDepositButton();
+		initWithdrawButton();
+		initTransferButton();
+		initInformationButton();
+		initCloseAccountButton();
 		initLogoutButton();
 		// TODO
 		//
@@ -62,47 +68,83 @@ public class HomeView extends JPanel implements ActionListener {
 		// positioning your components.
 	}
 	
-	private void initDepositView() {
-		JButton depositView = new JButton("Deposit");
-		depositView.setBounds(126, 360, 248, 35);
-		depositView.addActionListener(this);
-
-		this.add(depositView);		
+private void initCloseAccountButton() {
+		closeAccountButton = new JButton();
+		closeAccountButton.setBounds(5, 5, 50, 50);
+		closeAccountButton.addActionListener(this);
+		
+		try {
+			closeAccountButton.setText("Close Account");;
+		} catch (Exception e) {
+			closeAccountButton.setText("Close Account");
+		}
+		
+		buttons.add(closeAccountButton);
 	}
-	
-	private void initTransferView() {
-		JButton transferView = new JButton("Transfer");
-		transferView.setBounds(126, 360, 248, 35);
-		transferView.addActionListener(this);
-
-		this.add(transferView);		
+	private void initDepositButton() {
+		depositButton = new JButton();
+		depositButton.setBounds(5, 5, 50, 50);
+		depositButton.addActionListener(this);
+		
+		try {
+			depositButton.setText("Deposit");;
+		} catch (Exception e) {
+			depositButton.setText("Deposit");
+		}
+		
+		buttons.add(depositButton);
 	}
-	
-	private void initWithdrawView() {
-		JButton withdrawView = new JButton("Withdraw");
-		withdrawView.setBounds(126, 360, 248, 35);
-		withdrawView.addActionListener(this);
-
-		this.add(withdrawView);		
+	private void initWithdrawButton() {
+		withdrawButton = new JButton();
+		withdrawButton.setBounds(5, 5, 50, 50);
+		withdrawButton.addActionListener(this);
+		
+		try {
+			withdrawButton.setText("Withdraw");;
+		} catch (Exception e) {
+			withdrawButton.setText("Withdraw");
+		}
+		
+		buttons.add(withdrawButton);
 	}
-	
+	private void initTransferButton() {
+		transferButton = new JButton();
+		transferButton.setBounds(5, 5, 50, 50);
+		transferButton.addActionListener(this);
+		
+		try {
+			transferButton.setText("Transfer");;
+		} catch (Exception e) {
+			transferButton.setText("Transfer");
+		}
+		
+		buttons.add(transferButton);
+	}
+	private void initInformationButton() {
+		informationButton = new JButton();
+		informationButton.setBounds(5, 5, 50, 50);
+		informationButton.addActionListener(this);
+		
+		try {
+			informationButton.setText("View/Edit Info");;
+		} catch (Exception e) {
+			informationButton.setText("View/Edit Info");
+		}
+		
+		buttons.add(informationButton);
+	}
 	private void initLogoutButton() {
-		JButton logoutButton = new JButton("Logout");
-		logoutButton.setBounds(126, 360, 248, 35);
+		logoutButton = new JButton();
+		logoutButton.setBounds(5, 5, 50, 50);
 		logoutButton.addActionListener(this);
-
-		this.add(logoutButton);		
-	}
-	
-	/*
-	 * HomeView is not designed to be serialized, and attempts to serialize will throw an IOException.
-	 * 
-	 * @param oos
-	 * @throws IOException
-	 */
-	
-	private void writeObject(ObjectOutputStream oos) throws IOException {
-		throw new IOException("ERROR: The HomeView class is not serializable.");
+		
+		try {
+			logoutButton.setText("Log Out");;
+		} catch (Exception e) {
+			logoutButton.setText("Log Out");
+		}
+		
+		bottom.add(logoutButton);
 	}
 	
 	///////////////////// OVERRIDDEN METHODS //////////////////////////////////////////
@@ -118,17 +160,23 @@ public class HomeView extends JPanel implements ActionListener {
 		
 		Object source = e.getSource();
 		
-		if (source.equals(depositView)) {
-			manager.switchTo(ATM.DEPOSIT_VIEW);
-		} else if (source.equals(withdrawView)) {
-			manager.switchTo(ATM.WITHDRAW_VIEW);
-		} else if (source.equals(transferView)); {
+		if (source.equals(transferButton)) {
 			manager.switchTo(ATM.TRANSFER_VIEW);
-		} if (source.equals(logoutButton)) {
-			manager.switchTo(ATM.LOGIN_VIEW);
+		} else if (source.equals(withdrawButton)) {
+			manager.switchTo(ATM.WITHDRAW_VIEW);
+		} else if (source.equals(depositButton)) {
+			manager.switchTo(ATM.DEPOSIT_VIEW);
+		} else if (source.equals(logoutButton)) {
+			manager.logOutConfirmation();
+		} else if (source.equals(informationButton)) {
+			manager.updateInfoView();
+			manager.switchTo(ATM.INFORMATION_VIEW);
+		} else if (source.equals(closeAccountButton)) {
+			manager.closeAccountConfirmation();
 		} else {
 			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
 		}
+		
 		// TODO
 		//
 		// this is where you'll setup your action listener, which is responsible for
@@ -137,4 +185,5 @@ public class HomeView extends JPanel implements ActionListener {
 		//
 		// feel free to use my action listener in LoginView.java as an example.
 	}
+	
 }
