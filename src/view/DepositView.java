@@ -30,7 +30,7 @@ public class DepositView extends JPanel implements ActionListener {
 	private ViewManager manager;		// manages interactions between the views, model, and database
 	private JLabel amountLabel;
 	private JTextField amountField;
-	private JButton saveButton;
+	private JButton saveButton; 
 	private JButton backButton;
 	private JPanel amount;
 	private static JLabel errorMessageLabel;
